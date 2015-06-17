@@ -12,23 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using VectorEditor.Control;
 
-namespace VectorEditor
+namespace VectorEditor.Control
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для VectorEditorControl.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class VectorEditorControl : UserControl
     {
-        public MainWindow()
+        public VectorEditorControl()
         {
             InitializeComponent();
-
-            // TODO убрать, это только для теста
-            RectanglePrimitive primitive = new RectanglePrimitive(Guid.NewGuid(), 10,10, 100, 100);
-            VectorEditorControl.Canvas.Visuals.Add(primitive);
-            primitive.IsSelected = true;
         }
     }
 }
