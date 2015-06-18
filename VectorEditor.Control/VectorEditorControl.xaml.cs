@@ -18,11 +18,30 @@ namespace VectorEditor.Control
     /// <summary>
     /// Логика взаимодействия для VectorEditorControl.xaml
     /// </summary>
-    public partial class VectorEditorControl : UserControl
+    public partial class VectorEditorControl
     {
+        private CustomCanvas _canvas;
+
         public VectorEditorControl()
         {
             InitializeComponent();
+
+            _canvas = (CustomCanvas)this.Content;
+        }
+
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseDown(e);
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+        }
+
+        protected override void OnMouseUp(MouseButtonEventArgs e)
+        {
+            base.OnMouseUp(e);
         }
     }
 }

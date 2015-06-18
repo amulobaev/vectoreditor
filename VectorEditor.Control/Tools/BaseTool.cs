@@ -10,17 +10,17 @@ namespace VectorEditor.Control
     /// <summary>
     /// Базовый инструмент
     /// </summary>
-    public abstract class BaseTool
+    public abstract class BaseTool : ITool
     {
-        public virtual void OnMouseDown(CustomCanvas canvas, MouseButtonEventArgs args)
+        public virtual void OnMouseDown(CustomCanvas canvas, MouseButtonEventArgs e)
         {
         }
 
-        public virtual void OnMouseMove(CustomCanvas canvas, MouseEventArgs args)
+        public virtual void OnMouseMove(CustomCanvas canvas, MouseEventArgs e)
         {
         }
 
-        public virtual void OnMouseUp(CustomCanvas canvas, MouseButtonEventArgs args)
+        public virtual void OnMouseUp(CustomCanvas canvas, MouseButtonEventArgs e)
         {
         }
     }

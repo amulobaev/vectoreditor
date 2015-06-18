@@ -62,6 +62,15 @@ namespace VectorEditor.Control
 
         public virtual void Draw(DrawingContext drawingContext)
         {
+            if (IsSelected)
+            {
+                DrawSelectionRectangle(drawingContext);
+            }
+        }
+
+        public virtual void DrawSelectionRectangle(DrawingContext drawingContext)
+        {
+            
         }
 
         private void RefreshDrawing()

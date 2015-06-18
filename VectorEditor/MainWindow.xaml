@@ -15,13 +15,21 @@
             <MenuItem Header="Файл">
                 <MenuItem Header="Выход" />
             </MenuItem>
+            
+            <MenuItem Header="Правка">
+                <MenuItem Header="Удалить" />
+            </MenuItem>
         </Menu>
         
         <!--Панель инструментов-->
         <ToolBar Grid.Row="1">
-            <Button>
-                Кнопка!
-            </Button>
+            <Button Content="Новый" Margin="1" />
+            <Button Content="Открыть" Margin="1" />
+            <Button Content="Сохранить" Margin="1" />
+            <Separator />
+            <Button Content="Курсор" Margin="1" />
+            <Button Content="Прямоугольник" Margin="1" />
+            <Button Content="Линия" Margin="1" />
         </ToolBar>
         
         <control:VectorEditorControl x:Name="VectorEditorControl" Grid.Row="2">
