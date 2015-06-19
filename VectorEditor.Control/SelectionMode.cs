@@ -3,6 +3,8 @@
     public enum SelectionMode
     {
         None = 0,
-        Move
+        Modification,
+        MovePrimitive,
+        MoveWorkspace
     }
 }

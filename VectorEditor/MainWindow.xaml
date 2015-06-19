@@ -2,7 +2,11 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:control="clr-namespace:VectorEditor.Control;assembly=VectorEditor.Control"
+        xmlns:converters="clr-namespace:VectorEditor.Converters"
         Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <converters:RadioButtonCheckedConverter x:Key="RadioButtonCheckedConverter" />
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -13,7 +17,7 @@
         <!--Меню-->
         <Menu>
             <MenuItem Header="Файл">
-                <MenuItem Header="Выход" />
+                <MenuItem Header="Выход" x:Name="MenuFileExit" Click="MenuFileExit_Click" />
             </MenuItem>
             
             <MenuItem Header="Правка">
@@ -27,9 +31,13 @@
             <Button Content="Открыть" Margin="1" />
             <Button Content="Сохранить" Margin="1" />
             <Separator />
-            <Button Content="Курсор" Margin="1" />
-            <Button Content="Прямоугольник" Margin="1" />
-            <Button Content="Линия" Margin="1" />
+            <ToggleButton Content="Курсор" Margin="1"
+                          IsChecked="{Binding ElementName=VectorEditorControl, Path=Tool, Converter={StaticResource RadioButtonCheckedConverter}, ConverterParameter={x:Static control:ToolType.Cursor}}" />
+            <ToggleButton Content="Прямоугольник" Margin="1"
+                          IsChecked="{Binding ElementName=VectorEditorControl, Path=Tool, Converter={StaticResource RadioButtonCheckedConverter}, ConverterParameter={x:Static control:ToolType.Rectangle}}" />
+            <ToggleButton Content="Линия" Margin="1"
+                          IsChecked="{Binding ElementName=VectorEditorControl, Path=Tool, Converter={StaticResource RadioButtonCheckedConverter}, ConverterParameter={x:Static control:ToolType.Line}}" />
+            <Separator />
         </ToolBar>
         
         <control:VectorEditorControl x:Name="VectorEditorControl" Grid.Row="2">

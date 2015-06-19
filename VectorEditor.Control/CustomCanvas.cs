@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -10,6 +7,14 @@ namespace VectorEditor.Control
 {
     public class CustomCanvas : Canvas
     {
+        public static readonly DependencyProperty OwnerProperty = DependencyProperty.Register("Owner",
+            typeof(VectorEditorControl), typeof(CustomCanvas), new PropertyMetadata(callback));
+
+        private static void callback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            Debug.WriteLine(e.NewValue);
+        }
+
         private readonly VisualCollection _visuals;
 
         /// <summary>
@@ -18,6 +23,12 @@ namespace VectorEditor.Control
         public CustomCanvas()
         {
             _visuals = new VisualCollection(this);
+        }
+
+        public VectorEditorControl Owner
+        {
+            get { return (VectorEditorControl)GetValue(OwnerProperty); }
+            set { SetValue(OwnerProperty, value); }
         }
 
         public int Count
@@ -42,5 +53,6 @@ namespace VectorEditor.Control
         {
             return _visuals[index];
         }
+
     }
 }

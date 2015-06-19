@@ -43,19 +43,21 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers.cs" />
     <Compile Include="PrimitiveProperties\BasePrimitiveProperties.cs" />
-    <Compile Include="Primitives\AuxiliaryPrimitive.cs" />
-    <Compile Include="Primitives\BasePrimitive.cs" />
+    <Compile Include="Primitives\Primitive.cs" />
     <Compile Include="Primitives\BaseRectanglePrimitive.cs" />
     <Compile Include="SelectionMode.cs" />
-    <Compile Include="Tools\BaseTool.cs" />
+    <Compile Include="Tools\Tool.cs" />
     <Compile Include="CustomCanvas.cs" />
     <Compile Include="Primitives\RectanglePrimitive.cs" />
     <Compile Include="Primitives\SelectionRectanglePrimitive.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RefreshAttribute.cs" />
     <Compile Include="Tools\CursorTool.cs" />
-    <Compile Include="Tools\ITool.cs" />
+    <Compile Include="Tools\ToolLine.cs" />
+    <Compile Include="Tools\ToolRectangle.cs" />
+    <Compile Include="ToolType.cs" />
     <Compile Include="VectorEditorControl.xaml.cs">
       <DependentUpon>VectorEditorControl.xaml</DependentUpon>
     </Compile>
@@ -65,6 +67,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Cursors\hand.cur" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

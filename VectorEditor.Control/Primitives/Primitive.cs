@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 
 namespace VectorEditor.Control
@@ -12,19 +11,29 @@ namespace VectorEditor.Control
     /// <summary>
     /// Базовый примитив
     /// </summary>
-    public abstract class BasePrimitive : DrawingVisual, INotifyPropertyChanged
+    public abstract class Primitive : DrawingVisual, INotifyPropertyChanged
     {
+        protected const double HitTestWidth = 8.0;
+
+        protected const double HandleSize = 12.0;
+
         private readonly Guid _id;
-        
+
         private bool _isSelected;
 
+        protected double graphicsLineWidth;
+
         private readonly List<string> _refreshDrawingProperties;
-        
+
+        static SolidColorBrush _keyPointBrush1 = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
+        static SolidColorBrush _keyPointBrush2 = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
+        static SolidColorBrush _keyPointBrush3 = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255));
+
         /// <summary>
         /// Конструктор
         /// </summary>
         /// <param name="id">Идентификатор</param>
-        protected BasePrimitive(Guid id)
+        protected Primitive(Guid id)
         {
             _id = id;
 
@@ -60,17 +69,58 @@ namespace VectorEditor.Control
             }
         }
 
+        /// <summary>
+        /// Количество ключеных точек
+        /// </summary>
+        public abstract int KeyPointCount { get; }
+
+        public abstract Point GetKeyPoint(int number);
+
+        /// <summary>
+        /// Получение ключевой точки по номеру
+        /// </summary>
+        public Rect GetHandleRectangle(int handleNumber)
+        {
+            Point point = GetKeyPoint(handleNumber);
+            double size = Math.Max(HandleSize, graphicsLineWidth * 1.1);
+            return new Rect(point.X - size / 2, point.Y - size / 2,
+                size, size);
+        }
+
         public virtual void Draw(DrawingContext drawingContext)
         {
             if (IsSelected)
             {
-                DrawSelectionRectangle(drawingContext);
+                for (int i = 1; i <= KeyPointCount; i++)
+                {
+                    DrawKeyPoint(drawingContext, GetHandleRectangle(i));
+                }
             }
         }
 
-        public virtual void DrawSelectionRectangle(DrawingContext drawingContext)
+        /// <summary>
+        /// Отрисовка ключевой точки
+        /// </summary>
+        /// <param name="drawingContext"></param>
+        /// <param name="rectangle"></param>
+        public static void DrawKeyPoint(DrawingContext drawingContext, Rect rectangle)
         {
-            
+            //
+            drawingContext.DrawRectangle(_keyPointBrush1, null, rectangle);
+
+            //
+            drawingContext.DrawRectangle(_keyPointBrush2, null,
+                new Rect(rectangle.Left + rectangle.Width / 8,
+                         rectangle.Top + rectangle.Height / 8,
+                         rectangle.Width * 6 / 8,
+                         rectangle.Height * 6 / 8));
+
+            //
+            drawingContext.DrawRectangle(_keyPointBrush3, null,
+                new Rect(rectangle.Left + rectangle.Width / 4,
+                 rectangle.Top + rectangle.Height / 4,
+                 rectangle.Width / 2,
+                 rectangle.Height / 2));
         }
 
         private void RefreshDrawing()

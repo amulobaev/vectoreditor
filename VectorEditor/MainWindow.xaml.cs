@@ -24,11 +24,11 @@ namespace VectorEditor
         public MainWindow()
         {
             InitializeComponent();
+        }
 
-            // TODO убрать, это только для теста
-            RectanglePrimitive primitive = new RectanglePrimitive(Guid.NewGuid(), 10,10, 100, 100);
-            VectorEditorControl.Canvas.Visuals.Add(primitive);
-            primitive.IsSelected = true;
+        private void MenuFileExit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }
