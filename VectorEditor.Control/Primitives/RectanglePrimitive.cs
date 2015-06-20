@@ -17,5 +17,6 @@ namespace VectorEditor.Control
 
             base.Draw(drawingContext);
         }
+
     }
 }

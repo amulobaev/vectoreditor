@@ -56,7 +56,9 @@
     <Compile Include="RefreshAttribute.cs" />
     <Compile Include="Tools\CursorTool.cs" />
     <Compile Include="Tools\ToolLine.cs" />
+    <Compile Include="Tools\ToolPrimitive.cs" />
     <Compile Include="Tools\ToolRectangle.cs" />
+    <Compile Include="Tools\ToolRectangleBase.cs" />
     <Compile Include="ToolType.cs" />
     <Compile Include="VectorEditorControl.xaml.cs">
       <DependentUpon>VectorEditorControl.xaml</DependentUpon>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -14,10 +15,19 @@ namespace VectorEditor.Control
         public static readonly DependencyProperty ToolProperty = DependencyProperty.Register(
             "Tool", typeof(ToolType), typeof(VectorEditorControl), new PropertyMetadata(ToolType.Cursor));
 
+        public static readonly DependencyProperty LineWidthProperty = DependencyProperty.Register(
+            "LineWidth", typeof (double), typeof (VectorEditorControl), new PropertyMetadata(1d, LineWidthChanged));
+
         public ToolType Tool
         {
             get { return (ToolType)GetValue(ToolProperty); }
             set { SetValue(ToolProperty, value); }
+        }
+
+        public double LineWidth
+        {
+            get { return (double)GetValue(LineWidthProperty); }
+            set { SetValue(LineWidthProperty, value); }
         }
 
         private readonly Tool[] _tools;
@@ -35,9 +45,27 @@ namespace VectorEditor.Control
             _tools[2] = new ToolLine();
         }
 
+        internal Primitive this[int index]
+        {
+            get { return Canvas[index]; }
+        }
+
         public VisualCollection Visuals
         {
             get { return Canvas.Visuals; }
+        }
+
+        public int Count
+        {
+            get { return Canvas.Count; }
+        }
+
+        /// <summary>
+        /// Выбранные примитивы
+        /// </summary>
+        internal IEnumerable<Primitive> Selection
+        {
+            get { return Canvas.Visuals.OfType<Primitive>().Where(x => x.IsSelected).ToList(); }
         }
 
         public void Add(Primitive primitive)
@@ -86,7 +114,10 @@ namespace VectorEditor.Control
             _tools[(int)Tool].OnMouseUp(this, e);
         }
 
-        
+        private static void LineWidthChanged(DependencyObject dependencyObject,
+            DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+        }
 
         public void UnselectAll()
         {

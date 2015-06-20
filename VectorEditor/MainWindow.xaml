@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:control="clr-namespace:VectorEditor.Control;assembly=VectorEditor.Control"
         xmlns:converters="clr-namespace:VectorEditor.Converters"
-        Title="MainWindow" Height="350" Width="525">
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        Title="Векторный редактор" Height="600" Width="1000" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <converters:RadioButtonCheckedConverter x:Key="RadioButtonCheckedConverter" />
     </Window.Resources>
@@ -38,6 +39,13 @@
             <ToggleButton Content="Линия" Margin="1"
                           IsChecked="{Binding ElementName=VectorEditorControl, Path=Tool, Converter={StaticResource RadioButtonCheckedConverter}, ConverterParameter={x:Static control:ToolType.Line}}" />
             <Separator />
+            <TextBlock Text="Линия:" VerticalAlignment="Center" Margin="2" />
+            <xctk:DoubleUpDown Width="60" Margin="1" VerticalAlignment="Center" />
+            <Separator />
+            <TextBlock Text="Цвет:" VerticalAlignment="Center" Margin="2" />
+            <xctk:ColorPicker x:Name="ColorPicker"  StandardColorsHeader="Стандартные цвета" AvailableColorsHeader="Доступные цвета" />
+            <Separator />
+            <TextBlock Text="Заливка:" VerticalAlignment="Center" Margin="2" />
         </ToolBar>
         
         <control:VectorEditorControl x:Name="VectorEditorControl" Grid.Row="2">

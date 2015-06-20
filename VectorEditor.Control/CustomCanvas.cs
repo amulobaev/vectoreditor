@@ -25,6 +25,11 @@ namespace VectorEditor.Control
             _visuals = new VisualCollection(this);
         }
 
+        internal Primitive this[int index]
+        {
+            get { return index >= 0 && index < Count ? (Primitive)_visuals[index] : null; }
+        }
+
         public VectorEditorControl Owner
         {
             get { return (VectorEditorControl)GetValue(OwnerProperty); }

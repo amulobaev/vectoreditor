@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Input;
 
 namespace VectorEditor.Control
 {
     public abstract class BaseRectanglePrimitive : Primitive
     {
-        private readonly double _x1;
+        private double _x1;
 
-        private readonly double _y1;
+        private double _y1;
 
-        private readonly double _x2;
+        private double _x2;
 
-        private readonly double _y2;
+        private double _y2;
 
         /// <summary>
         /// Конструктор
@@ -88,5 +89,124 @@ namespace VectorEditor.Control
 
             return new Point(x, y);
         }
+
+        public override bool Contains(Point point)
+        {
+            return this.Rectangle.Contains(point);
+        }
+
+        /// <summary>
+        /// Hit test.
+        /// Return value: -1 - no hit
+        ///                0 - hit anywhere
+        ///                > 1 - handle number
+        /// </summary>
+        public override int MakeHitTest(Point point)
+        {
+            if (IsSelected)
+            {
+                for (int i = 1; i <= KeyPointCount; i++)
+                {
+                    if (GetHandleRectangle(i).Contains(point))
+                        return i;
+                }
+            }
+
+            if (Contains(point))
+                return 0;
+
+            return -1;
+        }
+
+        /// <summary>
+        /// Get cursor for the handle
+        /// </summary>
+        public override Cursor GetHandleCursor(int handleNumber)
+        {
+            switch (handleNumber)
+            {
+                case 1:
+                    return Cursors.SizeNWSE;
+                case 2:
+                    return Cursors.SizeNS;
+                case 3:
+                    return Cursors.SizeNESW;
+                case 4:
+                    return Cursors.SizeWE;
+                case 5:
+                    return Cursors.SizeNWSE;
+                case 6:
+                    return Cursors.SizeNS;
+                case 7:
+                    return Cursors.SizeNESW;
+                case 8:
+                    return Cursors.SizeWE;
+                default:
+                    return Cursors.Arrow;
+            }
+        }
+
+        /// <summary>
+        /// Move handle to new point (resizing)
+        /// </summary>
+        public override void MoveKeyPointTo(int number, Point point)
+        {
+            switch (number)
+            {
+                case 1:
+                    _x1 = point.X;
+                    _y1 = point.Y;
+                    break;
+                case 2:
+                    _y1 = point.Y;
+                    break;
+                case 3:
+                    _x2 = point.X;
+                    _y1 = point.Y;
+                    break;
+                case 4:
+                    _x2 = point.X;
+                    break;
+                case 5:
+                    _x2 = point.X;
+                    _y2 = point.Y;
+                    break;
+                case 6:
+                    _y2 = point.Y;
+                    break;
+                case 7:
+                    _x1 = point.X;
+                    _y2 = point.Y;
+                    break;
+                case 8:
+                    _x1 = point.X;
+                    break;
+            }
+
+            RefreshDrawing();
+        }
+
+        /// <summary>
+        /// Test whether object intersects with rectangle
+        /// </summary>
+        public override bool IntersectsWith(Rect rectangle)
+        {
+            return Rectangle.IntersectsWith(rectangle);
+        }
+
+        /// <summary>
+        /// Move object
+        /// </summary>
+        public override void Move(double deltaX, double deltaY)
+        {
+            _x1 += deltaX;
+            _x2 += deltaX;
+
+            _y1 += deltaY;
+            _y2 += deltaY;
+
+            RefreshDrawing();
+        }
+
     }
 }

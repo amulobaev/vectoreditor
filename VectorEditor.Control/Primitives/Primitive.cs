@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace VectorEditor.Control
@@ -27,7 +28,7 @@ namespace VectorEditor.Control
 
         static SolidColorBrush _keyPointBrush1 = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
         static SolidColorBrush _keyPointBrush2 = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
-        static SolidColorBrush _keyPointBrush3 = new SolidColorBrush(Color.FromArgb(255, 0, 0, 255));
+        static SolidColorBrush _keyPointBrush3 = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
 
         /// <summary>
         /// Конструктор
@@ -74,7 +75,37 @@ namespace VectorEditor.Control
         /// </summary>
         public abstract int KeyPointCount { get; }
 
+        /// <summary>
+        /// Hit test, should be overwritten in derived classes.
+        /// </summary>
+        public abstract bool Contains(Point point);
+
         public abstract Point GetKeyPoint(int number);
+
+        /// <summary>
+        /// Hit test.
+        /// Return value: -1 - no hit
+        ///                0 - hit anywhere
+        ///                > 1 - handle number
+        /// </summary>
+        public abstract int MakeHitTest(Point point);
+
+        /// <summary>
+        /// Test whether object intersects with rectangle
+        /// </summary>
+        public abstract bool IntersectsWith(Rect rectangle);
+
+        public abstract void Move(double deltaX, double deltaY);
+        
+        /// <summary>
+        /// Move handle to the point
+        /// </summary>
+        public abstract void MoveKeyPointTo(int number, Point point);
+
+        /// <summary>
+        /// Get cursor for the handle
+        /// </summary>
+        public abstract Cursor GetHandleCursor(int handleNumber);
 
         /// <summary>
         /// Получение ключевой точки по номеру
@@ -123,7 +154,7 @@ namespace VectorEditor.Control
                  rectangle.Height / 2));
         }
 
-        private void RefreshDrawing()
+        public void RefreshDrawing()
         {
             using (DrawingContext drawingContext = RenderOpen())
             {

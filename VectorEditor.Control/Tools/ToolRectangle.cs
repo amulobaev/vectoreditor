@@ -4,21 +4,18 @@ using System.Windows.Input;
 
 namespace VectorEditor.Control
 {
-    public class ToolRectangle : Tool
+    public class ToolRectangle : ToolRectangleBase
     {
         public override void OnMouseDown(VectorEditorControl vectorEditor, MouseButtonEventArgs e)
         {
-            Point position = Helpers.GetPosition(vectorEditor, e);
+            Point point = Helpers.GetPosition(vectorEditor, e);
 
-            double x = position.X;
-            double y = position.Y;
+            double x = point.X;
+            double y = point.Y;
 
-            RectanglePrimitive primitive = new RectanglePrimitive(Guid.NewGuid(), x, y, x + 100, y + 100)
-            {
-                IsSelected = true
-            };
+            RectanglePrimitive primitive = new RectanglePrimitive(Guid.NewGuid(), x, y, x + 1, y + 1);
 
-            vectorEditor.Add(primitive);
+            AddNewPrimitive(vectorEditor, primitive);
         }
     }
 }

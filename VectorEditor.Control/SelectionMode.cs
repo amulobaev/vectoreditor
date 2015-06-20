@@ -5,6 +5,7 @@
         None = 0,
         Modification,
         MovePrimitive,
-        MoveWorkspace
+        MoveWorkspace,
+        Selection
     }
 }
