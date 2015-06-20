@@ -25,6 +25,11 @@ namespace VectorEditor.Control
             LineColor = lineColor;
         }
 
+        public override BasePrimitiveProperties CreateSerializedObject()
+        {
+            return new RectanglePrimitiveProperties(this);
+        }
+
         /// <summary>
         /// Отрисовка
         /// </summary>

@@ -40,6 +40,67 @@ namespace VectorEditor.Control
         {
             get { return new Rect(new Point(_x1, _y1), new Point(_x2, _y2)); }
         }
+
+        [Refresh]
+        public double X1
+        {
+            get { return _x1; }
+            set
+            {
+                if (value == _x1)
+                {
+                    return;
+                }
+                _x1 = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        [Refresh]
+        public double Y1
+        {
+            get { return _y1; }
+            set
+            {
+                if (value == _y1)
+                {
+                    return;
+                }
+                _y1 = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        [Refresh]
+        public double X2
+        {
+            get { return _x2; }
+            set
+            {
+                if (value == _x2)
+                {
+                    return;
+                }
+                _x2 = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        [Refresh]
+        public double Y2
+        {
+            get { return _y2; }
+            set
+            {
+                if (value == _y2)
+                {
+                    return;
+                }
+                _y2 = value;
+                RaisePropertyChanged();
+            }
+        }
+
         /// <summary>
         /// Get handle point by 1-based number
         /// </summary>

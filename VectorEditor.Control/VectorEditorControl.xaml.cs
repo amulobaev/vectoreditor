@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Xml.Serialization;
 
 namespace VectorEditor.Control
 {
@@ -16,10 +18,10 @@ namespace VectorEditor.Control
             "Tool", typeof(ToolType), typeof(VectorEditorControl), new PropertyMetadata(ToolType.Cursor));
 
         public static readonly DependencyProperty LineWidthProperty = DependencyProperty.Register(
-            "LineWidth", typeof (double), typeof (VectorEditorControl), new PropertyMetadata(1.0, LineWidthChanged));
+            "LineWidth", typeof(double), typeof(VectorEditorControl), new PropertyMetadata(1.0, LineWidthChanged));
 
         public static readonly DependencyProperty LineColorProperty = DependencyProperty.Register(
-            "LineColor", typeof (Color), typeof (VectorEditorControl), new PropertyMetadata(Colors.Black, LineColorChanged));
+            "LineColor", typeof(Color), typeof(VectorEditorControl), new PropertyMetadata(Colors.Black, LineColorChanged));
 
         public ToolType Tool
         {
@@ -46,6 +48,7 @@ namespace VectorEditor.Control
         }
 
         private readonly Tool[] _tools;
+        private CustomCanvas _canvas;
 
         /// <summary>
         /// Конструктор
@@ -53,6 +56,8 @@ namespace VectorEditor.Control
         public VectorEditorControl()
         {
             InitializeComponent();
+
+            _canvas = (CustomCanvas)Content;
 
             _tools = new Tool[3];
             _tools[0] = new CursorTool();
@@ -62,17 +67,17 @@ namespace VectorEditor.Control
 
         internal Primitive this[int index]
         {
-            get { return Canvas[index]; }
+            get { return _canvas[index]; }
         }
 
         public VisualCollection Visuals
         {
-            get { return Canvas.Visuals; }
+            get { return _canvas.Visuals; }
         }
 
         public int Count
         {
-            get { return Canvas.Count; }
+            get { return _canvas.Count; }
         }
 
         /// <summary>
@@ -80,9 +85,13 @@ namespace VectorEditor.Control
         /// </summary>
         internal IEnumerable<Primitive> Selection
         {
-            get { return Canvas.Visuals.OfType<Primitive>().Where(x => x.IsSelected).ToList(); }
+            get { return _canvas.Visuals.OfType<Primitive>().Where(x => x.IsSelected).ToList(); }
         }
 
+        /// <summary>
+        /// Добавление примитива на рабочую область
+        /// </summary>
+        /// <param name="primitive"></param>
         public void Add(Primitive primitive)
         {
             if (primitive == null)
@@ -90,9 +99,13 @@ namespace VectorEditor.Control
                 throw new ArgumentNullException("primitive");
             }
 
-            Canvas.Visuals.Add(primitive);
+            _canvas.Visuals.Add(primitive);
         }
 
+        /// <summary>
+        /// Удаление примитива с рабочей области
+        /// </summary>
+        /// <param name="primitive"></param>
         public void Remove(Primitive primitive)
         {
             if (primitive == null)
@@ -100,7 +113,12 @@ namespace VectorEditor.Control
                 throw new ArgumentNullException("primitive");
             }
 
-            Canvas.Visuals.Remove(primitive);
+            _canvas.Visuals.Remove(primitive);
+        }
+
+        public void Clear()
+        {
+            _canvas.Visuals.Clear();
         }
 
         protected override void OnMouseDown(MouseButtonEventArgs e)
@@ -163,11 +181,58 @@ namespace VectorEditor.Control
             }
         }
 
+        public void SelectAll()
+        {
+            foreach (Primitive primitive in Visuals.OfType<Primitive>())
+            {
+                primitive.IsSelected = true;
+            }
+        }
+
         public void UnselectAll()
         {
             foreach (Primitive primitive in Visuals.OfType<Primitive>())
             {
                 primitive.IsSelected = false;
+            }
+        }
+
+        public void Load(string fileName)
+        {
+            SerializationHelper helper;
+            XmlSerializer serializer = new XmlSerializer(typeof(SerializationHelper));
+            using (Stream stream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                helper = (SerializationHelper)serializer.Deserialize(stream);
+            }
+
+            if (helper.Properties == null)
+            {
+                return;
+            }
+
+            Clear();
+
+            foreach (BasePrimitiveProperties property in helper.Properties)
+            {
+                Add(property.CreatePrimitive());
+            }
+        }
+
+        public void Save(string fileName)
+        {
+            try
+            {
+                SerializationHelper helper = new SerializationHelper(_canvas.Visuals);
+                XmlSerializer serializer = new XmlSerializer(typeof(SerializationHelper));
+                using (Stream stream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None))
+                {
+                    serializer.Serialize(stream, helper);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
             }
         }
 

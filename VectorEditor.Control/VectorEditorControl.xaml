@@ -3,9 +3,7 @@
               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
               xmlns:local="clr-namespace:VectorEditor.Control"
               HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-    <local:CustomCanvas x:Name="Canvas" x:FieldModifier="public" HorizontalAlignment="Left" VerticalAlignment="Top"
+    <local:CustomCanvas HorizontalAlignment="Left" VerticalAlignment="Top"
                         Width="2720" Height="2720"
-                        Owner="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=local:VectorEditorControl}}">
-
-    </local:CustomCanvas>
+                        Owner="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=local:VectorEditorControl}}" />
 </ScrollViewer>

@@ -45,10 +45,13 @@
   <ItemGroup>
     <Compile Include="Helpers.cs" />
     <Compile Include="PrimitiveProperties\BasePrimitiveProperties.cs" />
+    <Compile Include="PrimitiveProperties\LinePrimitiveProperties.cs" />
+    <Compile Include="PrimitiveProperties\RectanglePrimitiveProperties.cs" />
     <Compile Include="Primitives\PolyLinePrimitive.cs" />
     <Compile Include="Primitives\Primitive.cs" />
     <Compile Include="Primitives\BaseRectanglePrimitive.cs" />
     <Compile Include="SelectionMode.cs" />
+    <Compile Include="SerializationHelper.cs" />
     <Compile Include="Tools\Tool.cs" />
     <Compile Include="CustomCanvas.cs" />
     <Compile Include="Primitives\RectanglePrimitive.cs" />

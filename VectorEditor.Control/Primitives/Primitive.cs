@@ -133,6 +133,8 @@ namespace VectorEditor.Control
         /// </summary>
         public abstract bool Contains(Point point);
 
+        public abstract BasePrimitiveProperties CreateSerializedObject();
+
         public abstract Point GetKeyPoint(int number);
 
         /// <summary>

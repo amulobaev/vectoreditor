@@ -18,6 +18,10 @@
         <!--Меню-->
         <Menu>
             <MenuItem Header="Файл">
+                <MenuItem x:Name="MenuItemNew" Header="Новый" Click="MenuItemNew_Click" />
+                <MenuItem x:Name="MenuItemOpen" Header="Открыть" Click="MenuItemOpen_Click" />
+                <MenuItem x:Name="MenuItemSave" Header="Сохранить" Click="MenuItemSave_Click" />
+                <Separator />
                 <MenuItem Header="Выход" x:Name="MenuFileExit" Click="MenuFileExit_Click" />
             </MenuItem>
             
@@ -50,8 +54,6 @@
             <TextBlock Text="Заливка:" VerticalAlignment="Center" Margin="2" />
         </ToolBar>
         
-        <control:VectorEditorControl x:Name="VectorEditorControl" Grid.Row="2">
-            
-        </control:VectorEditorControl>
+        <control:VectorEditorControl x:Name="VectorEditorControl" Grid.Row="2" />
     </Grid>
 </Window>

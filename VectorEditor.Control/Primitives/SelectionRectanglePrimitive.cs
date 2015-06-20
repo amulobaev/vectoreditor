@@ -20,6 +20,11 @@ namespace VectorEditor.Control
         {
         }
 
+        public override BasePrimitiveProperties CreateSerializedObject()
+        {
+            return null;
+        }
+
         public override void Draw(DrawingContext drawingContext)
         {
             drawingContext.DrawRectangle(

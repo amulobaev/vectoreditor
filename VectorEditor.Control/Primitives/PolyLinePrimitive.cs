@@ -33,6 +33,11 @@ namespace VectorEditor.Control
             get { return _points.Count; }
         }
 
+        public List<Point> Points
+        {
+            get { return _points; }
+        }
+
         public override bool Contains(Point point)
         {
             for (int i = 0; i < _points.Count - 1; i++)
@@ -47,6 +52,11 @@ namespace VectorEditor.Control
             }
 
             return false;
+        }
+
+        public override BasePrimitiveProperties CreateSerializedObject()
+        {
+            return new LinePrimitiveProperties(this);
         }
 
         public override Point GetKeyPoint(int number)
