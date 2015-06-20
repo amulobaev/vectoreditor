@@ -34,6 +34,7 @@ namespace VectorEditor.Control
             {
                 // Нажата правая кнопка мыши
                 // Закончить создание линии
+                _line.RemovePoint(_line.KeyPointCount);
                 vectorEditor.Tool = ToolType.Cursor;
                 //vectorEditor.Cursor = Cursors.Arrow;
                 vectorEditor.ReleaseMouseCapture();

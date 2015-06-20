@@ -107,7 +107,7 @@ namespace VectorEditor.Control
             {
                 for (int i = 1; i <= KeyPointCount; i++)
                 {
-                    if (GetHandleRectangle(i).Contains(point))
+                    if (GetKeyPointRectangle(i).Contains(point))
                         return i;
                 }
             }

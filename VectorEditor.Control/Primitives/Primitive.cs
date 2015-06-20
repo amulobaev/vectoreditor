@@ -78,6 +78,15 @@ namespace VectorEditor.Control
             }
         }
 
+        protected double LineHitTestWidth
+        {
+            get
+            {
+                // Ensure that hit test area is not too narrow
+                return Math.Max(HitTestWidth, LineWidth);
+            }
+        }
+
         /// <summary>
         /// Толщина линии
         /// </summary>
@@ -154,7 +163,7 @@ namespace VectorEditor.Control
         /// <summary>
         /// Получение ключевой точки по номеру
         /// </summary>
-        public Rect GetHandleRectangle(int handleNumber)
+        public Rect GetKeyPointRectangle(int handleNumber)
         {
             Point point = GetKeyPoint(handleNumber);
             double size = Math.Max(HandleSize, LineWidth * 1.1);
@@ -168,7 +177,7 @@ namespace VectorEditor.Control
             {
                 for (int i = 1; i <= KeyPointCount; i++)
                 {
-                    DrawKeyPoint(drawingContext, GetHandleRectangle(i));
+                    DrawKeyPoint(drawingContext, GetKeyPointRectangle(i));
                 }
             }
         }

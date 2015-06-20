@@ -35,7 +35,18 @@ namespace VectorEditor.Control
 
         public override bool Contains(Point point)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < _points.Count - 1; i++)
+            {
+                Point point1 = _points[i];
+                Point point2 = _points[i + 1];
+                LineGeometry lg = new LineGeometry(point1, point2);
+                if (lg.StrokeContains(new Pen(Brushes.Black, LineHitTestWidth), point))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public override Point GetKeyPoint(int number)
@@ -54,7 +65,19 @@ namespace VectorEditor.Control
 
         public override int MakeHitTest(Point point)
         {
-            throw new NotImplementedException();
+            if (IsSelected)
+            {
+                for (int i = 1; i <= KeyPointCount; i++)
+                {
+                    if (GetKeyPointRectangle(i).Contains(point))
+                        return i;
+                }
+            }
+
+            if (Contains(point))
+                return 0;
+
+            return -1;
         }
 
         public override bool IntersectsWith(Rect rectangle)
@@ -83,7 +106,7 @@ namespace VectorEditor.Control
 
         public override Cursor GetHandleCursor(int handleNumber)
         {
-            throw new NotImplementedException();
+            return Cursors.Arrow;
         }
 
         public override void Draw(DrawingContext drawingContext)
@@ -106,6 +129,12 @@ namespace VectorEditor.Control
         public void AddPoint(Point point)
         {
             _points.Add(point);
+            RefreshDrawing();
+        }
+
+        public void RemovePoint(int number)
+        {
+            _points.RemoveAt(number - 1);
             RefreshDrawing();
         }
     }
