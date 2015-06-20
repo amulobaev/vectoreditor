@@ -14,21 +14,29 @@ namespace VectorEditor.Control
     /// </summary>
     public abstract class Primitive : DrawingVisual, INotifyPropertyChanged
     {
+        #region Константы
+
         protected const double HitTestWidth = 8.0;
 
         protected const double HandleSize = 12.0;
+
+        #endregion Константы
+
+        #region Поля
 
         private readonly Guid _id;
 
         private bool _isSelected;
 
-        protected double graphicsLineWidth;
-
         private readonly List<string> _refreshDrawingProperties;
 
-        static SolidColorBrush _keyPointBrush1 = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
-        static SolidColorBrush _keyPointBrush2 = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
-        static SolidColorBrush _keyPointBrush3 = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
+        private readonly SolidColorBrush _keyPointBrush1 = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
+        private readonly SolidColorBrush _keyPointBrush2 = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
+        private readonly SolidColorBrush _keyPointBrush3 = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
+        private double _lineWidth;
+        private Color _lineColor;
+
+        #endregion Поля
 
         /// <summary>
         /// Конструктор
@@ -66,6 +74,42 @@ namespace VectorEditor.Control
                     return;
                 }
                 _isSelected = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Толщина линии
+        /// </summary>
+        [Refresh]
+        public double LineWidth
+        {
+            get { return _lineWidth; }
+            set
+            {
+                if (value == _lineWidth)
+                {
+                    return;
+                }
+                _lineWidth = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Цвет линии
+        /// </summary>
+        [Refresh]
+        public Color LineColor
+        {
+            get { return _lineColor; }
+            set
+            {
+                if (value == _lineColor)
+                {
+                    return;
+                }
+                _lineColor = value;
                 RaisePropertyChanged();
             }
         }
@@ -113,7 +157,7 @@ namespace VectorEditor.Control
         public Rect GetHandleRectangle(int handleNumber)
         {
             Point point = GetKeyPoint(handleNumber);
-            double size = Math.Max(HandleSize, graphicsLineWidth * 1.1);
+            double size = Math.Max(HandleSize, LineWidth * 1.1);
             return new Rect(point.X - size / 2, point.Y - size / 2,
                 size, size);
         }
@@ -134,7 +178,7 @@ namespace VectorEditor.Control
         /// </summary>
         /// <param name="drawingContext"></param>
         /// <param name="rectangle"></param>
-        public static void DrawKeyPoint(DrawingContext drawingContext, Rect rectangle)
+        public void DrawKeyPoint(DrawingContext drawingContext, Rect rectangle)
         {
             //
             drawingContext.DrawRectangle(_keyPointBrush1, null, rectangle);

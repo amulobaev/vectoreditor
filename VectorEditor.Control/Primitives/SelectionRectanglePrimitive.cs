@@ -30,9 +30,7 @@ namespace VectorEditor.Control
             DashStyle dashStyle = new DashStyle();
             dashStyle.Dashes.Add(4);
 
-            Pen dashedPen = new Pen(Brushes.Black, 1);
-            dashedPen.DashStyle = dashStyle;
-
+            Pen dashedPen = new Pen(Brushes.Black, 1) { DashStyle = dashStyle };
 
             drawingContext.DrawRectangle(
                 null,

@@ -16,7 +16,10 @@ namespace VectorEditor.Control
             "Tool", typeof(ToolType), typeof(VectorEditorControl), new PropertyMetadata(ToolType.Cursor));
 
         public static readonly DependencyProperty LineWidthProperty = DependencyProperty.Register(
-            "LineWidth", typeof (double), typeof (VectorEditorControl), new PropertyMetadata(1d, LineWidthChanged));
+            "LineWidth", typeof (double), typeof (VectorEditorControl), new PropertyMetadata(1.0, LineWidthChanged));
+
+        public static readonly DependencyProperty LineColorProperty = DependencyProperty.Register(
+            "LineColor", typeof (Color), typeof (VectorEditorControl), new PropertyMetadata(Colors.Black, LineColorChanged));
 
         public ToolType Tool
         {
@@ -24,10 +27,22 @@ namespace VectorEditor.Control
             set { SetValue(ToolProperty, value); }
         }
 
+        /// <summary>
+        /// Толщина линии
+        /// </summary>
         public double LineWidth
         {
             get { return (double)GetValue(LineWidthProperty); }
             set { SetValue(LineWidthProperty, value); }
+        }
+
+        /// <summary>
+        /// Цвет линии
+        /// </summary>
+        public Color LineColor
+        {
+            get { return (Color)GetValue(LineColorProperty); }
+            set { SetValue(LineColorProperty, value); }
         }
 
         private readonly Tool[] _tools;
@@ -42,7 +57,7 @@ namespace VectorEditor.Control
             _tools = new Tool[3];
             _tools[0] = new CursorTool();
             _tools[1] = new ToolRectangle();
-            _tools[2] = new ToolLine();
+            _tools[2] = new ToolPolyLine();
         }
 
         internal Primitive this[int index]
@@ -114,9 +129,38 @@ namespace VectorEditor.Control
             _tools[(int)Tool].OnMouseUp(this, e);
         }
 
-        private static void LineWidthChanged(DependencyObject dependencyObject,
-            DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        /// <summary>
+        /// Обработка события изменения свойства зависимости "Толщина линии"
+        /// </summary>
+        /// <param name="d"></param>
+        /// <param name="e">Аргументы</param>
+        private static void LineWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            VectorEditorControl vectorEditor = d as VectorEditorControl;
+            if (vectorEditor != null)
+            {
+                foreach (Primitive primitive in vectorEditor.Selection)
+                {
+                    primitive.LineWidth = vectorEditor.LineWidth;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Обработка события изменения свойства зависимости "Цвет линии"
+        /// </summary>
+        /// <param name="d"></param>
+        /// <param name="e"></param>
+        private static void LineColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            VectorEditorControl vectorEditor = d as VectorEditorControl;
+            if (vectorEditor != null)
+            {
+                foreach (Primitive primitive in vectorEditor.Selection)
+                {
+                    primitive.LineColor = vectorEditor.LineColor;
+                }
+            }
         }
 
         public void UnselectAll()

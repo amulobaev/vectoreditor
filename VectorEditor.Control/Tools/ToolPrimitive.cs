@@ -14,12 +14,5 @@ namespace VectorEditor.Control
             vectorEditor.Add(primitive);
             vectorEditor.CaptureMouse();
         }
-
-        public override void OnMouseUp(VectorEditorControl vectorEditor, MouseButtonEventArgs e)
-        {
-            vectorEditor.Tool = ToolType.Cursor;
-            vectorEditor.Cursor = Cursors.Arrow;
-            vectorEditor.ReleaseMouseCapture();
-        }
     }
 }

@@ -40,10 +40,12 @@
                           IsChecked="{Binding ElementName=VectorEditorControl, Path=Tool, Converter={StaticResource RadioButtonCheckedConverter}, ConverterParameter={x:Static control:ToolType.Line}}" />
             <Separator />
             <TextBlock Text="Линия:" VerticalAlignment="Center" Margin="2" />
-            <xctk:DoubleUpDown Width="60" Margin="1" VerticalAlignment="Center" />
+            <xctk:IntegerUpDown Width="60" Margin="1" VerticalAlignment="Center" Minimum="1" Maximum="15"
+                                Value="{Binding ElementName=VectorEditorControl, Path=LineWidth, Mode=TwoWay}" />
             <Separator />
             <TextBlock Text="Цвет:" VerticalAlignment="Center" Margin="2" />
-            <xctk:ColorPicker x:Name="ColorPicker"  StandardColorsHeader="Стандартные цвета" AvailableColorsHeader="Доступные цвета" />
+            <xctk:ColorPicker StandardColorsHeader="Стандартные цвета" AvailableColorsHeader="Доступные цвета"
+                              SelectedColor="{Binding ElementName=VectorEditorControl, Path=LineColor, Mode=TwoWay}" />
             <Separator />
             <TextBlock Text="Заливка:" VerticalAlignment="Center" Margin="2" />
         </ToolBar>

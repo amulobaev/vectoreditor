@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Helpers.cs" />
     <Compile Include="PrimitiveProperties\BasePrimitiveProperties.cs" />
+    <Compile Include="Primitives\PolyLinePrimitive.cs" />
     <Compile Include="Primitives\Primitive.cs" />
     <Compile Include="Primitives\BaseRectanglePrimitive.cs" />
     <Compile Include="SelectionMode.cs" />
@@ -55,7 +56,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RefreshAttribute.cs" />
     <Compile Include="Tools\CursorTool.cs" />
-    <Compile Include="Tools\ToolLine.cs" />
+    <Compile Include="Tools\ToolPolyLine.cs" />
     <Compile Include="Tools\ToolPrimitive.cs" />
     <Compile Include="Tools\ToolRectangle.cs" />
     <Compile Include="Tools\ToolRectangleBase.cs" />
